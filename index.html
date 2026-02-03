@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<title>Ayush ❤️</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<style>
+* {
+  box-sizing: border-box;
+  font-family: "Poppins", sans-serif;
+}
+
+body {
+  margin: 0;
+  height: 100vh;
+  background: url("pic1.jpeg") center/cover no-repeat;
+  overflow: hidden;
+  transition: background 1s ease-in-out;
+}
+
+/* 💎 GLASS CARD */
+.card {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+
+  background: rgba(255, 255, 255, 0.35);
+  backdrop-filter: blur(12px);
+  -webkit-backdrop-filter: blur(12px);
+
+  padding: 35px;
+  border-radius: 20px;
+  text-align: center;
+  width: 360px;
+
+  box-shadow: 0 20px 40px rgba(0,0,0,0.3);
+  animation: slideIn 1s ease forwards;
+}
+
+/* 👉 Slide from right */
+@keyframes slideIn {
+  from {
+    transform: translateX(120%);
+    opacity: 0;
+  }
+  to {
+    transform: translateX(0);
+    opacity: 1;
+  }
+}
+
+/* 👋 Auto hide */
+.hide {
+  animation: fadeOut 1s ease forwards;
+}
+
+@keyframes fadeOut {
+  to {
+    opacity: 0;
+    transform: translateX(120%);
+  }
+}
+
+h1 { color: #ff1e56; }
+p { color: #222; }
+
+button {
+  padding: 12px 22px;
+  font-size: 16px;
+  border: none;
+  border-radius: 25px;
+  cursor: pointer;
+  margin: 10px;
+}
+
+#yesBtn {
+  background: #ff4d6d;
+  color: white;
+}
+
+#noBtn {
+  background: #eee;
+  position: absolute;
+}
+
+/* ❤️ Floating hearts */
+.heart {
+  position: absolute;
+  font-size: 20px;
+  animation: float 4s linear infinite;
+}
+
+@keyframes float {
+  0% { transform: translateY(0); opacity: 1; }
+  100% { transform: translateY(-800px); opacity: 0; }
+}
+
+/* 🎉 Confetti */
+.confetti {
+  position: absolute;
+  width: 10px;
+  height: 10px;
+  animation: confettiFall 4s linear forwards;
+}
+
+@keyframes confettiFall {
+  from {
+    transform: translateY(0) rotate(0deg);
+    opacity: 1;
+  }
+  to {
+    transform: translateY(100vh) rotate(720deg);
+    opacity: 0;
+  }
+}
+
+#countdown {
+  margin-top: 15px;
+  font-weight: bold;
+  color: #ff1e56;
+}
+
+audio { display: none; }
+
+/* 📱 Mobile safe */
+@media (max-width: 600px) {
+  .card {
+    width: 90%;
+    left: 5%;
+    right: auto;
+  }
+}
+</style>
+</head>
+
+<body>
+
+<!-- 🎵 Background Music -->
+<audio autoplay loop>
+  <source src="tujhe-kitna-chahne-lage.mp3" type="audio/mpeg">
+</audio>
+
+<div class="card" id="card">
+  <h1 id="typeText"></h1>
+  <p>Will you be my Valentine? 💌</p>
+
+  <button id="yesBtn">Yes 💖</button>
+  <button id="noBtn">No 🙄</button>
+
+  <div id="countdown"></div>
+</div>
+
+<script>
+/* TYPEWRITER */
+const text = "Ayush 💘 I have something important to ask you...";
+let i = 0;
+const typeText = document.getElementById("typeText");
+
+function typeWriter() {
+  if (i < text.length) {
+    typeText.innerHTML += text.charAt(i);
+    i++;
+    setTimeout(typeWriter, 70);
+  }
+}
+typeWriter();
+
+/* NO BUTTON RUNS */
+const noBtn = document.getElementById("noBtn");
+noBtn.addEventListener("mouseover", () => {
+  noBtn.style.left = Math.random() * (window.innerWidth - 120) + "px";
+  noBtn.style.top = Math.random() * (window.innerHeight - 60) + "px";
+});
+
+/* YES CLICK */
+const yesBtn = document.getElementById("yesBtn");
+const card = document.getElementById("card");
+
+yesBtn.addEventListener("click", () => {
+  document.body.style.background = 'url("pic2.jpeg") center/cover no-repeat';
+
+  card.innerHTML = `
+    <h1>💌 My Love Letter 💌</h1>
+    <p id="letter"></p>
+    <p><b>GATE Easter Egg:</b> AIR &lt; 100 loading… 😏🔥</p>
+    <p><b>Bonus:</b> You already topped my heart ❤️</p>
+  `;
+
+  typeLetter();
+  createHearts();
+  createConfetti();
+  autoHide();
+});
+
+/* LOVE LETTER */
+const letterText = `
+Thank you baby ❤️
+I love you so much, muaaahhhh 💋
+
+I believe in you with all my heart.
+I know you can crack GATE 💪✨
+
+No matter what happens,
+I will always support you.
+I will never give up on you.
+I’m always on your side 🫶
+
+You are my Valentine,
+today and forever 💕
+`;
+
+function typeLetter() {
+  let j = 0;
+  const letter = document.getElementById("letter");
+  const interval = setInterval(() => {
+    letter.innerHTML += letterText.charAt(j);
+    j++;
+    if (j === letterText.length) clearInterval(interval);
+  }, 40);
+}
+
+/* ❤️ Hearts */
+function createHearts() {
+  for (let k = 0; k < 45; k++) {
+    const heart = document.createElement("div");
+    heart.className = "heart";
+    heart.innerText = "❤️";
+    heart.style.left = Math.random() * window.innerWidth + "px";
+    heart.style.bottom = "-20px";
+    heart.style.fontSize = Math.random() * 20 + 15 + "px";
+    document.body.appendChild(heart);
+    setTimeout(() => heart.remove(), 4000);
+  }
+}
+
+/* 🎉 Confetti */
+function createConfetti() {
+  const colors = ["#ff4d6d", "#ffd166", "#ff99c8", "#f72585"];
+  for (let i = 0; i < 120; i++) {
+    const c = document.createElement("div");
+    c.className = "confetti";
+    c.style.backgroundColor = colors[Math.floor(Math.random() * colors.length)];
+    c.style.left = Math.random() * window.innerWidth + "px";
+    c.style.top = "-10px";
+    c.style.animationDuration = Math.random() * 2 + 3 + "s";
+    document.body.appendChild(c);
+    setTimeout(() => c.remove(), 5000);
+  }
+}
+
+/* ⏳ Countdown */
+const countdown = document.getElementById("countdown");
+const valentinesDay = new Date("Feb 14, 2026 00:00:00").getTime();
+
+setInterval(() => {
+  const now = new Date().getTime();
+  const diff = valentinesDay - now;
+  const days = Math.floor(diff / (1000 * 60 * 60 * 24));
+  countdown.innerHTML = `⏳ ${days} days left until Valentine’s Day 💘`;
+}, 1000);
+
+/* ⏱ Auto hide */
+function autoHide() {
+  setTimeout(() => {
+    card.classList.add("hide");
+  }, 10000);
+}
+</script>
+
+</body>
+</html>
